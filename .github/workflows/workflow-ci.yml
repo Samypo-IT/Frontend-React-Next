@@ -6,12 +6,20 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 jobs:
- continuous-integration:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Build and Test
-      run: |
-        npm install
-        npm run build
-        npm test
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        run: npm install    
+      - name: Test
+        run: npm test
+        # env:
+        #   CI: true
+      - name: Generate build
+        run: npm run build
